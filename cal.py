@@ -70,8 +70,11 @@ def print_month(month, year):
             else:
                 if year in schedule and month in schedule[year]:
                     scheduled = datetime.date(year, month, day) in [datetime.date(year, month, d) for d in schedule[year][month]]
+                    passed_schedule = scheduled and datetime.date(year, month, day) < today
                 else:
                     scheduled = False
+                    passed_schedule = False
+
 
                 if today == datetime.date(year, month, day):
                     calstr += colorama.Fore.GREEN + "%+4s" % ">"
@@ -82,11 +85,14 @@ def print_month(month, year):
                         calstr += colorama.Style.RESET_ALL
                         datesstr += "%6d: %s\n" % (day, schedule[year][month][day])
                     else:
-                        calstr += colorama.Fore.GREEN + "%s" % str(day)
+                        calstr += colorama.Fore.GREEN + "%2s" % str(day)
                         calstr += colorama.Style.RESET_ALL
 
                 elif scheduled:
-                    calstr += colorama.Fore.RED + colorama.Style.BRIGHT + "%+6s" % str(day)
+                    if passed_schedule:
+                        calstr += colorama.Fore.YELLOW + "%+6s" % str(day)
+                    else:
+                        calstr += colorama.Fore.RED + colorama.Style.BRIGHT + "%+6s" % str(day)
                     calstr += colorama.Style.RESET_ALL
                     datesstr += "%6d: %s\n" % (day, schedule[year][month][day])
 
