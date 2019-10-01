@@ -77,15 +77,12 @@ def print_month(month, year):
 
 
                 if today == datetime.date(year, month, day):
-                    calstr += colorama.Fore.GREEN + "%+4s" % ">"
-                    calstr += colorama.Style.RESET_ALL
-
                     if scheduled:
-                        calstr += colorama.Fore.RED + colorama.Style.BRIGHT + "%s" % str(day)
+                        calstr += colorama.Fore.RED + colorama.Style.BRIGHT + "%+6s" % (">" + str(day))
                         calstr += colorama.Style.RESET_ALL
                         datesstr += "%6d: %s\n" % (day, schedule[year][month][day])
                     else:
-                        calstr += colorama.Fore.GREEN + "%2s" % str(day)
+                        calstr += colorama.Fore.GREEN + "%+6s" % (">" + str(day))
                         calstr += colorama.Style.RESET_ALL
 
                 elif scheduled:
