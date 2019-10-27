@@ -82,16 +82,17 @@ def print_month(month, year):
                         calstr += colorama.Style.RESET_ALL
                         datesstr += "%6d: %s\n" % (day, schedule[year][month][day])
                     else:
-                        calstr += colorama.Back.WHITE + colorama.Fore.BLACK + "%+6s" % (">" + str(day))
+                        calstr += colorama.Back.WHITE + colorama.Fore.BLACK + colorama.Style.BRIGHT + "%+6s" % (">" + str(day))
                         calstr += colorama.Style.RESET_ALL
 
                 elif scheduled:
                     if passed_schedule:
                         calstr += colorama.Fore.BLUE + "%+6s" % str(day)
+                        datesstr += colorama.Fore.BLUE + "%6d: %s%s\n" % (day, colorama.Style.RESET_ALL, schedule[year][month][day])
                     else:
                         calstr += colorama.Fore.RED + colorama.Style.BRIGHT + "%+6s" % str(day)
+                        datesstr += colorama.Fore.RED + "%6d: %s%s\n" % (day, colorama.Style.RESET_ALL, schedule[year][month][day])
                     calstr += colorama.Style.RESET_ALL
-                    datesstr += "%6d: %s\n" % (day, schedule[year][month][day])
 
                 else:
                     calstr += "%+6s" % str(day)
