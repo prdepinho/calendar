@@ -108,8 +108,7 @@ def print_month(month, year):
 if __name__ == "__main__":
     print_month(month, year)
     if advance > 0:
-        for a in range(1, advance + 1):
-            if month + a > 12:
+        for a in range(0, advance):
+            if (month + a) % 12 + 1 == 1:
                 year += 1
-                month = 1
-            print_month(month + a, year)
+            print_month((month + a) % 12 + 1, year)
