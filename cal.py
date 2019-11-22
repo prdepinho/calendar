@@ -3,7 +3,7 @@ import datetime
 import colorama
 import sys
 import getopt
-from schedule import schedule
+from schedule import schedule, yearly
 
 cal = calendar.Calendar(6)
 today = datetime.date.today()
@@ -75,12 +75,17 @@ def print_month(month, year):
                     scheduled = False
                     passed_schedule = False
 
+                yearly_scheduled = month in yearly and day in yearly[month]
+
 
                 if today == datetime.date(year, month, day):
                     if scheduled:
                         calstr += colorama.Back.WHITE + colorama.Fore.RED + colorama.Style.BRIGHT + "%+6s" % (">" + str(day))
                         calstr += colorama.Style.RESET_ALL
                         datesstr += "%6d: %s\n" % (day, schedule[year][month][day])
+                    elif yearly_scheduled:
+                        calstr += colorama.Back.WHITE + colorama.Fore.RED + "%+6s" % (">" + str(day))
+                        calstr += colorama.Style.RESET_ALL
                     else:
                         calstr += colorama.Back.WHITE + colorama.Fore.BLACK + colorama.Style.BRIGHT + "%+6s" % (">" + str(day))
                         calstr += colorama.Style.RESET_ALL
@@ -91,11 +96,19 @@ def print_month(month, year):
                         datesstr += colorama.Fore.BLUE + "%6d: %s%s\n" % (day, colorama.Style.RESET_ALL, schedule[year][month][day])
                     else:
                         calstr += colorama.Fore.RED + colorama.Style.BRIGHT + "%+6s" % str(day)
-                        datesstr += colorama.Fore.RED + "%6d: %s%s\n" % (day, colorama.Style.RESET_ALL, schedule[year][month][day])
+                        datesstr += colorama.Fore.RED + colorama.Style.BRIGHT + "%6d: %s%s\n" % (day, colorama.Style.RESET_ALL, schedule[year][month][day])
                     calstr += colorama.Style.RESET_ALL
 
                 else:
-                    calstr += "%+6s" % str(day)
+                    if yearly_scheduled:
+                        calstr += colorama.Fore.RED + "%+6s" % str(day)
+                    else:
+                        calstr += "%+6s" % str(day)
+                    calstr += colorama.Style.RESET_ALL
+
+                if yearly_scheduled:
+                    datesstr += colorama.Fore.RED + "%6d: %s%s\n" % (day, colorama.Style.RESET_ALL, yearly[month][day])
+                    calstr += colorama.Style.RESET_ALL
 
             iday += 1
         calstr += "\n"
